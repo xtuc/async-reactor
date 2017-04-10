@@ -1,0 +1,17 @@
+{
+  "presets":[
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    ["transform-es2015-modules-commonjs",{loose: true}],
+    "transform-async-to-generator"
+  ],
+  "env": {
+    "production": {
+      "presets": [["babili", {
+        "mangle": false
+      }]]
+    }
+  }
+}
