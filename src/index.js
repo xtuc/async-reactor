@@ -18,7 +18,7 @@ export class Reactactor extends Component {
 
     this.state = {};
 
-    const promise = this.props.wait(this.props.passthroughProps);
+    const promise = props.wait(props.passthroughProps);
 
     if (!isPromise(promise)) {
       throw new Error('you must provide an async component');
