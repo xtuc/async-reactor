@@ -1,3 +1,6 @@
 src
 test
 node_modules
+.babelrc
+.travis.yml
+.eslintrc
