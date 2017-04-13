@@ -8,7 +8,7 @@
 npm install --save async-reactor
 ```
 
-## Example
+## Examples
 
 component.js:
 ```js
@@ -41,3 +41,5 @@ ReactDOM.render(
     document.getElementById('root')
 );
 ```
+
+See more examples [here](https://github.com/xtuc/async-reactor-examples)
