@@ -42,4 +42,4 @@ ReactDOM.render(
 );
 ```
 
-See more examples [here](https://github.com/xtuc/async-reactor-examples)
+See more examples [here](https://github.com/xtuc/async-reactor/tree/master/examples)

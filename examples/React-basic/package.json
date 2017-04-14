@@ -1,0 +1,28 @@
+{
+  "name": "React",
+  "version": "1.0.0",
+  "description": "Async-reactor in React example",
+  "private": true,
+  "scripts": {
+    "build": "nwb build-react-app",
+    "clean": "nwb clean-app",
+    "start": "nwb serve-react-app",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
+  },
+  "dependencies": {
+    "async-reactor": "^1.0.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "nwb": "0.15.x"
+  },
+  "author": "Sven SAULEAU",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtuc/async-reactor-examples.git"
+  }
+}
