@@ -8,12 +8,31 @@
 npm install --save async-reactor
 ```
 
-## Examples
+## Usage
 
-component.js:
+```js
+asyncReactor(component: Function, loader?: Component): Component
+```
+
+| name               | type             | description                                     |
+|--------------------|------------------|-------------------------------------------------|
+| component          | Function (async) | The `async` component you want to render        |
+| loader (optionnal) | Component        | Will be shown until the first component renders |
+
+The returned value is a regular `Component`.
+
+### Example
+
 ```js
 import React from 'react';
 import {asyncReactor} from 'async-reactor';
+
+function Loader() {
+
+  return (
+    <h2>Loading ...</h2>
+  );
+}
 
 async function AsyncPosts() {
   const data = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -26,20 +45,9 @@ async function AsyncPosts() {
   );
 }
 
-export default asyncReactor(AsyncPosts);
+export default asyncReactor(AsyncPosts, Loader);
 ```
 
-index.js:
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import App from './component';
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-);
-```
+This example exports a regular React component. You can integrate it into an existing application or render it on the page.
 
 See more examples [here](https://github.com/xtuc/async-reactor/tree/master/examples)
