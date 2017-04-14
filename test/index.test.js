@@ -123,6 +123,31 @@ describe('Async reactor', () => {
         }, 10);
       });
     });
-  });
 
+    describe('loader', () => {
+
+      it('should show loader while waiting', () => {
+
+        function Loader() {
+          return <h1>loader</h1>;
+        }
+
+        const Component = async function() {
+          return <h1>component</h1>;
+        }
+
+        const App = asyncReactor(Component, Loader);
+
+        const wrapper = mount(<App />);
+
+        assert.equal(wrapper.text(), 'loader');
+
+        setTimeout(() => {
+          assert.equal(wrapper.text(), 'component');
+          done();
+        }, 10);
+      });
+    });
+
+  });
 });
