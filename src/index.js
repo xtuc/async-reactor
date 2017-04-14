@@ -14,7 +14,7 @@ function defer(fn) {
   setTimeout(fn, 0);
 }
 
-export class Reactactor extends Component {
+class Reactor extends Component {
 
   constructor(props) {
     super(props);
@@ -63,6 +63,6 @@ export function asyncReactor(component, loaderComponent = 'div') {
       passthroughProps: passthroughProps,
     };
 
-    return createElement(Reactactor, props);
+    return createElement(Reactor, props);
   };
 }
