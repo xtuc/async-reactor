@@ -96,7 +96,7 @@ describe('Async reactor', () => {
 
     describe('props', () => {
 
-      it('should pass props to async component', () => {
+      it('should pass props to async component', (done) => {
 
         const Component = asyncReactor(async function Component({a}) {
           return <h1>{a}</h1>;
@@ -110,7 +110,7 @@ describe('Async reactor', () => {
         }, 10);
       });
 
-      it('should pass multiple props to async component', () => {
+      it('should pass multiple props to async component', (done) => {
         const Component = asyncReactor(async function Component({a, b, c}) {
           return <h1>{a}{b}{c}</h1>;
         });
@@ -118,7 +118,7 @@ describe('Async reactor', () => {
         const wrapper = mount(<Component a={0} b={1} c={2}/>);
 
         setTimeout(() => {
-          assert.equal(wrapper.text(), '123');
+          assert.equal(wrapper.text(), '012');
           done();
         }, 10);
       });
@@ -126,7 +126,7 @@ describe('Async reactor', () => {
 
     describe('loader', () => {
 
-      it('should show loader while waiting', () => {
+      it('should show loader while waiting', (done) => {
 
         function Loader() {
           return <h1>loader</h1>;
