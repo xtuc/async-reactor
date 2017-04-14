@@ -3,7 +3,7 @@
 import {Component, createElement} from 'react';
 
 function isFunction(p) {
-  return typeof p === 'function'
+  return typeof p === 'function';
 }
 
 function isPromise(p = {}) {
@@ -14,9 +14,14 @@ function defer(fn) {
   setTimeout(fn, 0);
 }
 
-class Reactor extends Component {
+type ReactorState = {
+  data?: any
+}
 
-  constructor(props) {
+class Reactor extends Component {
+  state: ReactorState;
+
+  constructor(props: any) {
     super(props);
 
     this.state = {};
@@ -51,12 +56,15 @@ class Reactor extends Component {
   }
 }
 
-export function asyncReactor(component, loaderComponent = 'div') {
+export function asyncReactor(
+  component: Function,
+  loaderComponent: Component<any,any,any> | string = 'div'
+) {
   if (!isFunction(component)) {
     throw new Error('you must provide an async component');
   }
 
-  return function (passthroughProps = {}) {
+  return function (passthroughProps: Object = {}) {
     const props = {
       wait: component,
       loader: loaderComponent,

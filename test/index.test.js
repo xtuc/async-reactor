@@ -2,8 +2,8 @@ import 'babel-polyfill';
 
 import chai, {assert} from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import React from 'react'
-import {mount} from 'enzyme'
+import React from 'react';
+import {mount} from 'enzyme';
 import {asyncReactor} from '../lib';
 
 chai.use(chaiEnzyme());
@@ -20,7 +20,7 @@ describe('Async reactor', () => {
 
     it.skip('should throw if component is not async', () => {
       const Component = asyncReactor(function Component() {});
-      const fn = () => mount(<Component />)
+      const fn = () => mount(<Component />);
 
       assert.throws(fn, /you must provide an async component/);
     });
@@ -30,7 +30,7 @@ describe('Async reactor', () => {
         throw new Error('foo');
       });
 
-      const wrapper = mount(<Component />);
+      mount(<Component />);
     });
   });
 
@@ -50,6 +50,7 @@ describe('Async reactor', () => {
     });
 
     it('should render an async component in a tree', (done) => {
+      // eslint-disable-next-line
       function Wrapper({children}) {
         return <div>{children}</div>;
       }
@@ -134,7 +135,7 @@ describe('Async reactor', () => {
 
         const Component = async function() {
           return <h1>component</h1>;
-        }
+        };
 
         const App = asyncReactor(Component, Loader);
 
