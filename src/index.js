@@ -34,7 +34,7 @@ class Reactor extends Component {
       const promise = this.props.wait(this.props.passthroughProps);
 
       if (!isPromise(promise)) {
-        throw new Error('you must provide an async component');
+        throw new Error('You must provide an async component');
       }
 
       promise
@@ -61,7 +61,7 @@ export function asyncReactor(
   loaderComponent: Component<any,any,any> | string = 'div'
 ) {
   if (!isFunction(component)) {
-    throw new Error('you must provide an async component');
+    throw new Error(`You must provide an async component, ${JSON.stringify(component)} given`);
   }
 
   return function (passthroughProps: Object = {}) {

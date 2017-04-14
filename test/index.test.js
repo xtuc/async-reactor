@@ -15,7 +15,7 @@ describe('Async reactor', () => {
     it('should throw if no component', () => {
       const fn = () => asyncReactor(null);
 
-      assert.throws(fn, /you must provide an async component/);
+      assert.throws(fn, /You must provide an async component, null given/);
     });
 
     it.skip('should throw if component is not async', () => {
