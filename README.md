@@ -23,6 +23,11 @@ The returned value is a regular `Component`.
 
 ### Examples
 
+This examples are exporting a regular React component.
+You can integrate it into an existing application or render it on the page.
+
+See more examples [here](https://github.com/xtuc/async-reactor/tree/master/examples)
+
 #### Using code splitting
 
 ```js
@@ -75,7 +80,3 @@ async function AsyncPosts() {
 
 export default asyncReactor(AsyncPosts, Loader);
 ```
-
-This example exports a regular React component. You can integrate it into an existing application or render it on the page.
-
-See more examples [here](https://github.com/xtuc/async-reactor/tree/master/examples)
