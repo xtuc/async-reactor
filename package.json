@@ -8,6 +8,7 @@
     "components",
     "async",
     "await",
+    "code-splitting",
     "render"
   ],
   "description": "Render async Stateless Functional Components",
