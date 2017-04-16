@@ -78,6 +78,4 @@ export default asyncReactor(AsyncPosts, Loader);
 
 This example exports a regular React component. You can integrate it into an existing application or render it on the page.
 
-
-
 See more examples [here](https://github.com/xtuc/async-reactor/tree/master/examples)
