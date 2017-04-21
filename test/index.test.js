@@ -18,6 +18,19 @@ describe('Async reactor', () => {
       assert.throws(fn, /You must provide an async component, null given/);
     });
 
+    it('should throw if React element is passed', () => {
+      const Foo = async function() {
+        return <div></div>;
+      };
+
+      const fn = () => asyncReactor(<Foo />);
+
+      assert.throws(
+        fn,
+        'Incompatible React element given, please change asyncReactor(<Foo />) to asyncReactor(Foo).'
+      );
+    });
+
     it.skip('should throw if component is not async', () => {
       const Component = asyncReactor(function Component() {});
       const fn = () => mount(<Component />);
