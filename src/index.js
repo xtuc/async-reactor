@@ -10,10 +10,6 @@ function isPromise(p = {}) {
   return isFunction(p.then);
 }
 
-function defer(fn) {
-  setTimeout(fn, 0);
-}
-
 type ReactorState = {
   data?: any
 }
@@ -27,23 +23,19 @@ class Reactor extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const promise = this.props.wait(this.props.passthroughProps);
 
-    defer(() => {
+    if (!isPromise(promise)) {
+      throw new Error('You must provide an async component');
+    }
 
-      const promise = this.props.wait(this.props.passthroughProps);
-
-      if (!isPromise(promise)) {
-        throw new Error('You must provide an async component');
-      }
-
-      promise
-        .then((data) => {
-          this.setState({data});
-        })
-      .catch((err) => {
-        throw err;
-      });
+    promise
+      .then((data) => {
+        this.setState({data});
+      })
+    .catch((err) => {
+      throw err;
     });
   }
 
