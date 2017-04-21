@@ -1,6 +1,6 @@
 /* @flow */
 
-import {Component, createElement} from 'react';
+import {Component, createElement, isValidElement} from 'react';
 
 function isFunction(p) {
   return typeof p === 'function';
@@ -52,6 +52,13 @@ export function asyncReactor(
   component: Function,
   loaderComponent: Component<any,any,any> | string = 'div'
 ) {
+  if (isValidElement(component)) {
+    throw new Error(
+      'Incompatible React element given, please change'
+      + ` asyncReactor(<${component.type.name} />) to asyncReactor(${component.type.name}).`
+    );
+  }
+
   if (!isFunction(component)) {
     throw new Error(`You must provide an async component, ${JSON.stringify(component)} given`);
   }
