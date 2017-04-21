@@ -5,6 +5,7 @@ import chaiEnzyme from 'chai-enzyme';
 import React from 'react';
 import {mount} from 'enzyme';
 import {asyncReactor} from '../lib';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 chai.use(chaiEnzyme());
 
@@ -147,6 +148,39 @@ describe('Async reactor', () => {
           assert.equal(wrapper.text(), 'component');
           done();
         }, 10);
+      });
+    });
+
+    describe('Server-side', () => {
+
+      it('should render', () => {
+        const Component = async function() {
+          return <h1>component</h1>;
+        };
+
+        const App = asyncReactor(Component);
+
+        assert.equal(
+          renderToStaticMarkup(<App />),
+          '<div></div>' // default loader
+        );
+      });
+
+      it('should render the loader component', () => {
+        function Loader() {
+          return <h1>loader</h1>;
+        }
+
+        const Component = async function() {
+          return <h1>component</h1>;
+        };
+
+        const App = asyncReactor(Component, Loader);
+
+        assert.equal(
+          renderToStaticMarkup(<App />),
+          '<h1>loader</h1>'
+        );
       });
     });
 
