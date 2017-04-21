@@ -61,7 +61,6 @@ export function asyncReactor(
   loaderComponent: Component<any,any,any> | string = 'div'
 ) {
   if (isValidElement(component)) {
-    console.log(component.type.name);
     throw new Error(
       'Incompatible React element given, please change'
       + ` asyncReactor(<${component.type.name} />) to asyncReactor(${component.type.name}).`
