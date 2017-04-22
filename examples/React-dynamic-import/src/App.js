@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from 'react'
-import {asyncReactor} from '../../../src';
+import {asyncReactor} from 'async-reactor';
 
 function Loader() {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {asyncReactor} from '../../../src';
+import {asyncReactor} from 'async-reactor';
 
 function Loader() {
 
