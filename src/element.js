@@ -1,8 +1,9 @@
 /* @flow */
+
 import {Component, createElement} from 'react';
 
 export function createReactorElement(
-  Reactor: Component<any,any,any>,
+  Reactor: any /* Component */,
   component: Function,
   loaderComponent: Component<any,any,any> | string = 'div'
 ) {

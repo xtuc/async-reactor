@@ -46,7 +46,7 @@ class Reactor extends Component {
 
   render() {
     if ('data' in this.state) {
-      let renderer = interopRequireModule(this.state.data);
+      let renderer: any = interopRequireModule(this.state.data);
 
       if (isFunction(renderer)) {
         renderer = createElement(renderer, this.props.passthroughProps);
