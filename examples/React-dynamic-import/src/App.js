@@ -15,9 +15,10 @@ function Loader() {
 }
 
 const Post = asyncReactor(import('./Components/Post'), Loader);
-const Container = asyncReactor(import('./Components/Container'), Loader);
 
 async function AsyncPosts() {
+  const Container = (await import('./Components/Container')).default;
+
   const data = await fetch('https://jsonplaceholder.typicode.com/posts');
   const posts = await data.json();
 
