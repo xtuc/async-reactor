@@ -1,13 +1,18 @@
 /* @flow */
 
 import {Component, createElement, isValidElement} from 'react';
+import {createReactorElement} from './element';
+
+function interopRequireModule(obj) {
+  return obj && obj.__esModule ? obj.default : obj;
+}
 
 function isFunction(p) {
   return typeof p === 'function';
 }
 
 function isPromise(p = {}) {
-  return isFunction(p.then);
+  return p && isFunction(p.then);
 }
 
 type ReactorState = {
@@ -41,7 +46,13 @@ class Reactor extends Component {
 
   render() {
     if ('data' in this.state) {
-      return this.state.data;
+      let renderer: any = interopRequireModule(this.state.data);
+
+      if (isFunction(renderer)) {
+        renderer = createElement(renderer, this.props.passthroughProps);
+      }
+
+      return renderer;
     }
 
     return createElement(this.props.loader);
@@ -59,17 +70,17 @@ export function asyncReactor(
     );
   }
 
+  if (isPromise(component)) {
+    return createReactorElement(
+      Reactor,
+      () => component,
+      loaderComponent
+    );
+  }
+
   if (!isFunction(component)) {
     throw new Error(`You must provide an async component, ${JSON.stringify(component)} given`);
   }
 
-  return function (passthroughProps: Object = {}) {
-    const props = {
-      wait: component,
-      loader: loaderComponent,
-      passthroughProps: passthroughProps,
-    };
-
-    return createElement(Reactor, props);
-  };
+  return createReactorElement(Reactor, component, loaderComponent);
 }

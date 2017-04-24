@@ -197,5 +197,47 @@ describe('Async reactor', () => {
       });
     });
 
+    describe('Promise', () => {
+
+      it('should render a Promise', (done) => {
+        const App = asyncReactor(
+          Promise.resolve(<h1>test</h1>)
+        );
+
+        const wrapper = mount(<App />);
+
+        setTimeout(() => {
+          assert.equal(wrapper.text(), 'test');
+          done();
+        }, 10);
+      });
+
+      it('should render a Promise with ES6 module', (done) => {
+        const App = asyncReactor(
+          Promise.resolve({__esModule: true, default: <h1>test</h1>})
+        );
+
+        const wrapper = mount(<App />);
+
+        setTimeout(() => {
+          assert.equal(wrapper.text(), 'test');
+          done();
+        }, 10);
+      });
+
+      it('should render a Promise with props', (done) => {
+        const App = asyncReactor(
+          Promise.resolve(({text}) => <h1>{text}</h1>)
+        );
+
+        const wrapper = mount(<App text={'ok'}/>);
+
+        setTimeout(() => {
+          assert.equal(wrapper.text(), 'ok');
+          done();
+        }, 10);
+      });
+    });
+
   });
 });
