@@ -12,7 +12,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "async-reactor": "^1.0.4",
+    "async-reactor": "^1.1.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
