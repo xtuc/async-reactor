@@ -10,6 +10,10 @@ import {spy} from 'sinon';
 
 chai.use(chaiEnzyme());
 
+function defer(fn) {
+  setTimeout(fn, 10);
+}
+
 describe('Async reactor', () => {
 
   describe('Error handling', () => {
@@ -58,10 +62,10 @@ describe('Async reactor', () => {
 
       const wrapper = mount(<Component />);
 
-      setTimeout(() => {
+      defer(() => {
         assert.equal(wrapper.text(), 'foo');
         done();
-      }, 10);
+      });
     });
 
     it('should render an async component in a tree', (done) => {
@@ -80,10 +84,10 @@ describe('Async reactor', () => {
         </Wrapper>
       );
 
-      setTimeout(() => {
+      defer(() => {
         assert.equal(wrapper.text(), 'foo');
         done();
-      }, 10);
+      });
     });
 
     describe('childs', () => {
@@ -103,10 +107,10 @@ describe('Async reactor', () => {
           </Component>
         );
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'ab');
           done();
-        }, 10);
+        });
       });
     });
 
@@ -120,10 +124,10 @@ describe('Async reactor', () => {
 
         const wrapper = mount(<Component a={'bar'}/>);
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'bar');
           done();
-        }, 10);
+        });
       });
 
       it('should pass multiple props to async component', (done) => {
@@ -133,10 +137,10 @@ describe('Async reactor', () => {
 
         const wrapper = mount(<Component a={0} b={1} c={2}/>);
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), '012');
           done();
-        }, 10);
+        });
       });
     });
 
@@ -158,10 +162,10 @@ describe('Async reactor', () => {
 
         assert.equal(wrapper.text(), 'loader');
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'component');
           done();
-        }, 10);
+        });
       });
     });
 
@@ -207,10 +211,10 @@ describe('Async reactor', () => {
 
         const wrapper = mount(<App />);
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'test');
           done();
-        }, 10);
+        });
       });
 
       it('should render a Promise with ES6 module', (done) => {
@@ -220,10 +224,10 @@ describe('Async reactor', () => {
 
         const wrapper = mount(<App />);
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'test');
           done();
-        }, 10);
+        });
       });
 
       it('should render a Promise with props', (done) => {
@@ -233,10 +237,10 @@ describe('Async reactor', () => {
 
         const wrapper = mount(<App text={'ok'}/>);
 
-        setTimeout(() => {
+        defer(() => {
           assert.equal(wrapper.text(), 'ok');
           done();
-        }, 10);
+        });
       });
     });
 
@@ -251,11 +255,11 @@ describe('Async reactor', () => {
       mount(<Component />).unmount();
       callResolve();
 
-      setTimeout(() => {
+      defer(() => {
         assert.isFalse(console.error.called);
         console.error.restore();
         done();
-      }, 10);
+      });
     });
   });
 });
