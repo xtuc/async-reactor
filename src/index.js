@@ -21,32 +21,51 @@ type ReactorState = {
 
 class Reactor extends Component {
   _isMounted: boolean;
+  _passthroughProps: Object;
   state: ReactorState;
 
   constructor(props: any) {
     super(props);
 
     this.state = {};
+    this._passthroughProps = props.passthroughProps;
+  }
+
+  _handleError(err: Error) {
+    const errorComponent = this.props.error;
+
+    if (errorComponent && this._isMounted) {
+      this._passthroughProps = {
+        name: err.name,
+        message: err.message,
+        fileName: err.fileName,
+        stack: err.stack,
+      };
+
+      this._setResult(errorComponent);
+    } else {
+      throw err;
+    }
+  }
+
+  _setResult(data) {
+    if (this._isMounted) {
+      this.setState({data});
+    }
   }
 
   componentDidMount() {
     this._isMounted = true;
 
-    const promise = this.props.wait(this.props.passthroughProps);
+    const promise = this.props.wait(this._passthroughProps);
 
     if (!isPromise(promise)) {
       throw new Error('You must provide an async component');
     }
 
     promise
-      .then((data) => {
-        if (this._isMounted) {
-          this.setState({data});
-        }
-      })
-      .catch((err) => {
-        throw err;
-      });
+      .then((data) => this._setResult(data))
+      .catch((err) => this._handleError(new Error(err)));
   }
 
   componentWillUnmount() {
@@ -58,7 +77,7 @@ class Reactor extends Component {
       let renderer: any = interopRequireModule(this.state.data);
 
       if (isFunction(renderer)) {
-        renderer = createElement(renderer, this.props.passthroughProps);
+        renderer = createElement(renderer, this._passthroughProps);
       }
 
       return renderer;
@@ -70,7 +89,8 @@ class Reactor extends Component {
 
 export function asyncReactor(
   component: Function,
-  loaderComponent: Component<any,any,any> | string = 'div'
+  loaderComponent?: Component<any,any,any> | string,
+  errorComponent?: Component<any,any,any> | string,
 ) {
   if (isValidElement(component)) {
     throw new Error(
@@ -79,11 +99,20 @@ export function asyncReactor(
     );
   }
 
+  if (!loaderComponent) {
+    loaderComponent = 'div';
+  }
+
+  if (!errorComponent) {
+    errorComponent = 'div';
+  }
+
   if (isPromise(component)) {
     return createReactorElement(
       Reactor,
       () => component,
-      loaderComponent
+      loaderComponent,
+      errorComponent
     );
   }
 
@@ -91,5 +120,5 @@ export function asyncReactor(
     throw new Error(`You must provide an async component, ${JSON.stringify(component)} given`);
   }
 
-  return createReactorElement(Reactor, component, loaderComponent);
+  return createReactorElement(Reactor, component, loaderComponent, errorComponent);
 }

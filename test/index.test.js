@@ -144,7 +144,7 @@ describe('Async reactor', () => {
       });
     });
 
-    describe('loader', () => {
+    describe('loader component', () => {
 
       it('should show loader while waiting', (done) => {
 
@@ -166,6 +166,46 @@ describe('Async reactor', () => {
           assert.equal(wrapper.text(), 'component');
           done();
         });
+      });
+    });
+
+    describe('error component', () => {
+
+      const Component = async function() {
+        throw new Error('foo');
+      };
+
+      it('should show the component when an error occurred', (done) => {
+
+        function Error() {
+          return <h1>error</h1>;
+        }
+
+        const App = asyncReactor(Component, null, Error);
+        const wrapper = mount(<App />);
+
+        defer(() => {
+          assert.equal(wrapper.text(), 'error');
+          done();
+        });
+      });
+
+      it('should pass error to error component', (done) => {
+
+        function Error(props) {
+          assert.property(props, 'name');
+          assert.property(props, 'message');
+          assert.property(props, 'fileName');
+          assert.property(props, 'stack');
+
+          assert.equal(props.message, 'Error: foo');
+
+          done();
+          return <div />;
+        }
+
+        const App = asyncReactor(Component, null, Error);
+        mount(<App />);
       });
     });
 
