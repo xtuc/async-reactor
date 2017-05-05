@@ -8,8 +8,6 @@ import {asyncReactor} from '../lib';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {spy} from 'sinon';
 
-const delay = (ms) => new Promise((r) => setTimeout(r, ms));
-
 chai.use(chaiEnzyme());
 
 describe('Async reactor', () => {
