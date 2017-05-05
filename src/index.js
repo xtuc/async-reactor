@@ -20,6 +20,7 @@ type ReactorState = {
 }
 
 class Reactor extends Component {
+  _isMounted: boolean;
   state: ReactorState;
 
   constructor(props: any) {
@@ -29,6 +30,8 @@ class Reactor extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     const promise = this.props.wait(this.props.passthroughProps);
 
     if (!isPromise(promise)) {
@@ -37,11 +40,17 @@ class Reactor extends Component {
 
     promise
       .then((data) => {
-        this.setState({data});
+        if (this._isMounted) {
+          this.setState({data});
+        }
       })
-    .catch((err) => {
-      throw err;
-    });
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
