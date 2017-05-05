@@ -6,6 +6,7 @@ import React from 'react';
 import {mount} from 'enzyme';
 import {asyncReactor} from '../lib';
 import {renderToStaticMarkup} from 'react-dom/server';
+import {spy} from 'sinon';
 
 chai.use(chaiEnzyme());
 
@@ -239,5 +240,22 @@ describe('Async reactor', () => {
       });
     });
 
+    it('should not set state of unmounted component and warn', (done) => {
+      spy(console, 'error');
+      let callResolve;
+
+      const Component = asyncReactor(new Promise((resolve) => {
+        callResolve = resolve;
+      }));
+
+      mount(<Component />).unmount();
+      callResolve();
+
+      setTimeout(() => {
+        assert.isFalse(console.error.called);
+        console.error.restore();
+        done();
+      }, 10);
+    });
   });
 });

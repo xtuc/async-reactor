@@ -52,6 +52,7 @@
     "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.3",
     "react-test-renderer": "^15.5.4",
+    "sinon": "^2.2.0",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
