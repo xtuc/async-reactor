@@ -190,7 +190,9 @@ describe('Async reactor', () => {
         });
       });
 
-      it('should pass error to error component', (done) => {
+      // FIXME(sven): currently not possible, error object is not passed to the
+      // component
+      it.skip('should pass error object to error component', (done) => {
 
         function Error(props) {
           assert.property(props, 'name');
@@ -206,6 +208,20 @@ describe('Async reactor', () => {
 
         const App = asyncReactor(Component, null, Error);
         mount(<App />);
+      });
+
+      it('should pass initial props to error component', (done) => {
+
+        function Error(props) {
+          assert.isTrue(props.a);
+          assert.equal(props.b, 'foo');
+
+          done();
+          return <div />;
+        }
+
+        const App = asyncReactor(Component, null, Error);
+        mount(<App a={true} b='foo'/>);
       });
     });
 
@@ -281,6 +297,40 @@ describe('Async reactor', () => {
           assert.equal(wrapper.text(), 'ok');
           done();
         });
+      });
+
+      it('should show the component when an error occurred', (done) => {
+        function Error() {
+          done();
+
+          return <div />;
+        }
+
+        const App = asyncReactor(
+          Promise.reject(),
+          null,
+          Error,
+        );
+
+        mount(<App/>);
+      });
+
+      it('should pass error object and props to error component', (done) => {
+        function Error({error, a}) {
+          assert.equal(error, 'foo');
+          assert.equal(a, 'a');
+          done();
+
+          return <div />;
+        }
+
+        const App = asyncReactor(
+          Promise.reject('foo'),
+          null,
+          Error,
+        );
+
+        mount(<App a={'a'}/>);
       });
     });
 

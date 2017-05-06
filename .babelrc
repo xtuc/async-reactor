@@ -5,7 +5,8 @@
   ],
   "plugins": [
     ["transform-es2015-modules-commonjs",{"loose": true}],
-    "transform-async-to-generator"
+    "transform-async-to-generator",
+    "babel-plugin-transform-object-rest-spread"
   ],
   "env": {
     "production": {

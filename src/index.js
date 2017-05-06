@@ -31,33 +31,33 @@ class Reactor extends Component {
     this._passthroughProps = props.passthroughProps;
   }
 
-  _handleError(err: Error) {
+  _handleError(error: Error) {
     const errorComponent = this.props.error;
 
     if (errorComponent && this._isMounted) {
-      this._passthroughProps = {
-        name: err.name,
-        message: err.message,
-        fileName: err.fileName,
-        stack: err.stack,
-      };
-
+      this._passthroughProps = {...this._passthroughProps, error};
       this._setResult(errorComponent);
     } else {
-      throw err;
+      throw error;
     }
   }
 
   _setResult(data) {
     if (this._isMounted) {
-      this.setState({data});
+      this.setState({data: interopRequireModule(data)});
     }
   }
 
   componentDidMount() {
     this._isMounted = true;
 
-    const promise = this.props.wait(this._passthroughProps);
+    let promise;
+
+    if (isPromise(this.props.wait)) {
+      promise = this.props.wait;
+    } else {
+      promise = this.props.wait(this._passthroughProps);
+    }
 
     if (!isPromise(promise)) {
       throw new Error('You must provide an async component');
@@ -65,7 +65,7 @@ class Reactor extends Component {
 
     promise
       .then((data) => this._setResult(data))
-      .catch((err) => this._handleError(new Error(err)));
+      .catch((err) => this._handleError(err));
   }
 
   componentWillUnmount() {
@@ -74,13 +74,13 @@ class Reactor extends Component {
 
   render() {
     if ('data' in this.state) {
-      let renderer: any = interopRequireModule(this.state.data);
+      const renderer: any = this.state.data;
 
       if (isFunction(renderer)) {
-        renderer = createElement(renderer, this._passthroughProps);
+        return createElement(renderer, this._passthroughProps);
+      } else {
+        return renderer;
       }
-
-      return renderer;
     }
 
     return createElement(this.props.loader);
@@ -107,16 +107,7 @@ export function asyncReactor(
     errorComponent = 'div';
   }
 
-  if (isPromise(component)) {
-    return createReactorElement(
-      Reactor,
-      () => component,
-      loaderComponent,
-      errorComponent
-    );
-  }
-
-  if (!isFunction(component)) {
+  if (!isFunction(component) && !isPromise(component)) {
     throw new Error(`You must provide an async component, ${JSON.stringify(component)} given`);
   }
 
