@@ -16,3 +16,8 @@ h2 {
   font-weight: 500;
   color: rgb(255,64,129);
 }
+
+.error {
+  background-color: #F44336;
+  color: white;
+}

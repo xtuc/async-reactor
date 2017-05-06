@@ -1,7 +1,16 @@
 import './App.css';
 
-import React from 'react'
+import React from 'react';
 import {asyncReactor} from 'async-reactor';
+
+function Error({postsUrl}) {
+
+  return (
+    <div className='container'>
+      <h2>Error: cannot load {postsUrl}</h2>
+    </div>
+  );
+}
 
 function Loader() {
 
@@ -14,8 +23,8 @@ function Loader() {
   );
 }
 
-async function AsyncPosts() {
-  const data = await fetch('https://jsonplaceholder.typicode.com/posts');
+async function AsyncPosts({postsUrl}) {
+  const data = await fetch(postsUrl);
   const posts = await data.json();
 
   return (
@@ -33,4 +42,4 @@ async function AsyncPosts() {
   );
 }
 
-export default asyncReactor(AsyncPosts, Loader);
+export default asyncReactor(AsyncPosts, Loader, Error);
