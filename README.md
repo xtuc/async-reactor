@@ -11,13 +11,14 @@ npm install --save async-reactor
 ## Usage
 
 ```js
-asyncReactor(component: Function, loader?: Component): Component
+asyncReactor(component: Function, loader?: Component, error?: Component): Component
 ```
 
 | name               | type             | description                                     |
 |--------------------|------------------|-------------------------------------------------|
 | component          | Function (async) | The `async` component you want to render        |
 | loader (optionnal) | Component        | Will be shown until the first component renders |
+| error (optionnal)  | Component        | Will be shown when an error occurred            |
 
 The returned value is a regular `Component`.
 
