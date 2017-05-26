@@ -64,8 +64,10 @@ class Reactor extends Component {
     }
 
     promise
-      .then((data) => this._setResult(data))
-      .catch((err) => this._handleError(err));
+      .then(
+        (data) => this._setResult(data),
+        (err) => this._handleError(err)
+      );
   }
 
   componentWillUnmount() {
