@@ -1,0 +1,20 @@
+body {
+  background-color: #E0E0E0;
+}
+
+.container {
+  width: 500px;
+  background-color: white;
+  margin: 20px auto;
+}
+
+.box {
+  border-radius: 2px;
+  padding: 80px 56px;
+  padding-bottom: 30px;
+}
+
+h2 {
+  font-weight: 500;
+  color: rgb(255,64,129);
+}
