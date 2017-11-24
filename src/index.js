@@ -85,7 +85,7 @@ class Reactor extends Component {
       }
     }
 
-    return createElement(this.props.loader);
+    return createElement(this.props.loader, this._passthroughProps);
   }
 }
 
